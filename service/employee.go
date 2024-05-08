@@ -12,24 +12,22 @@ import (
 	"github.com/spf13/cast"
 )
 
-func GetEmployeeByID() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		log.Printf("recieved get employee request: %v", c.Request)
+func GetEmployeeByID(c *gin.Context) {
+	log.Printf("recieved get employee request: %v", c.Request)
 
-		request := c.Request.WithContext(c)
+	request := c.Request.WithContext(c)
 
-		employeeID := c.Query("employee_id")
+	employeeID := c.Query("employee_id")
 
-		emp, err := repository.Postgresql.Employee.GetByID(request.Context(), employeeID)
-		if err != nil {
-			log.Printf("error getting employee from db, error: %v", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(200, emp)
-		log.Print("successfully sent employee data")
+	emp, err := repository.Postgresql.Employee.GetByID(request.Context(), employeeID)
+	if err != nil {
+		log.Printf("error getting employee from db, error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
+
+	c.JSON(200, emp)
+	log.Print("successfully sent employee data")
 }
 
 func CreateEmployee() func(c *gin.Context) {

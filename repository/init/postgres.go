@@ -14,3 +14,7 @@ func SetPostgres(db *sql.DB) error {
 	}
 	return nil
 }
+
+func SetPostgresMock() {
+	Postgresql = &Repository{}
+}
